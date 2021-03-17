@@ -14,6 +14,10 @@ namespace ExceptionE.Entites
 
         public Reservation(int roomNumber, DateTime checkIn, DateTime checkOut)
         {
+            if (checkOut <= checkIn)
+            {
+                throw new DomainException("Error in reservation: Check-out date must...");
+            }
             RoomNumber = roomNumber;
             CheckIn = checkIn;
             CheckOut = checkOut;
@@ -27,6 +31,16 @@ namespace ExceptionE.Entites
 
         public void UpdateDates(DateTime checkIn, DateTime checkOut)
         {
+            DateTime now = DateTime.Now;
+            if (checkIn < now || checkOut < now)
+            {
+                throw new DomainException("Error in reservation: Reservation dates for future");
+            }
+            if (checkOut <= checkIn)
+            {
+                throw new DomainException("Error in reservation: Check-out date must...");
+            }
+
             CheckIn = checkIn;
             CheckOut = checkOut;
         }
